@@ -6,7 +6,7 @@
 # ── Stage 1: PHP dependencies ────────────────────────────────────────────────
 # NOTE: uses php:8.4-cli-bookworm (not composer:2.8 image) because
 # filament/support v5 requires ext-intl, which the stock composer image lacks.
-FROM php:8.4-cli-bookworm AS vendor
+FROM php:8.5-cli-bookworm AS vendor
 ENV DEBIAN_FRONTEND=noninteractive
 COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -53,7 +53,7 @@ COPY public ./public
 RUN bun run build
 
 # ── Stage 3: production runtime ──────────────────────────────────────────────
-FROM php:8.4-cli-bookworm AS production
+FROM php:8.5-cli-bookworm AS production
 ENV DEBIAN_FRONTEND=noninteractive \
     APP_ENV=production
 
