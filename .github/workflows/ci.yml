@@ -64,4 +64,5 @@ jobs:
       - name: Validate compose files
         run: |
           docker compose -f compose.yaml config --quiet
-          docker compose -f compose.yaml -f compose.prod.yaml config --quiet
+          APP_KEY=base64:dummykeyfordockervalidate0000000000000= DB_PASSWORD=dummy \
+            docker compose -f compose.yaml -f compose.prod.yaml config --quiet
