@@ -113,7 +113,7 @@ php artisan make:filament-user
 | Component | Version |
 |---|---|
 | PHP runtime | `php:8.4-cli-bookworm` |
-| Composer | `composer:2.8` |
+| Composer | binary `2.8` (`COPY --from=composer:2.8`; vendor stage is php-based because Filament 5 needs ext-intl) |
 | Bun | `oven/bun:1.4.2-alpine` + `packageManager bun@1.4.2` |
 | MySQL | `mysql:8.4` |
 | Laravel | `13.34.0` (`^13.0`) |

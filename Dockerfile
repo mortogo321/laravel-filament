@@ -4,7 +4,32 @@
 # Runtime: non-root appuser, HEALTHCHECK on /api/health.
 
 # ── Stage 1: PHP dependencies ────────────────────────────────────────────────
-FROM composer:2.8 AS vendor
+# NOTE: uses php:8.4-cli-bookworm (not composer:2.8 image) because
+# filament/support v5 requires ext-intl, which the stock composer image lacks.
+FROM php:8.4-cli-bookworm AS vendor
+ENV DEBIAN_FRONTEND=noninteractive
+COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    unzip \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev \
+    libicu-dev \
+    libsqlite3-dev \
+  && docker-php-ext-install -j"$(nproc)" \
+    pdo \
+    pdo_mysql \
+    pdo_sqlite \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    zip \
+    intl \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY composer.json composer.lock ./
 RUN composer install \
@@ -38,6 +63,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
+    libicu-dev \
     libsqlite3-dev \
     sqlite3 \
     unzip \
