@@ -126,7 +126,7 @@ php artisan make:filament-user
 | laravel-vite-plugin | `3.2.0` |
 | axios | `1.20.0` |
 | CI runner | `ubuntu-24.04` |
-| GH actions | `checkout v7`, `setup-php v2 (php 8.4)`, `setup-bun v2`, `buildx v4`, `build-push v6` |
+| GH actions | `checkout v7`, `setup-php v2 (php 8.4)`, `setup-bun v2`, `buildx v4`, `build-push v7` |
 
 ## Upgrade notes (Laravel 12 → 13, Filament 4 → 5)
 
