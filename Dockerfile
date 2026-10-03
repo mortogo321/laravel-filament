@@ -4,7 +4,7 @@
 # Runtime: non-root appuser, HEALTHCHECK on /api/health.
 
 # ── Stage 1: PHP dependencies ────────────────────────────────────────────────
-FROM composer:2.8 AS vendor
+FROM composer:2.9 AS vendor
 WORKDIR /app
 COPY composer.json composer.lock ./
 RUN composer install \
