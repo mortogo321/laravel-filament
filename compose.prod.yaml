@@ -1,0 +1,30 @@
+# Production overrides — fail fast if APP_KEY is missing (mirrors Symfony
+# APP_SECRET :? guard pattern used across this portfolio).
+name: laravel-filament
+
+services:
+  app:
+    build:
+      target: production
+    ports:
+      - "8080:8000"
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_KEY: ${APP_KEY:?APP_KEY must be set in the environment for production}
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE:-laravel}
+      DB_USERNAME: ${DB_USERNAME:-laravel}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set in the environment for production}
+      CACHE_STORE: database
+      SESSION_DRIVER: database
+      QUEUE_CONNECTION: database
+    volumes: [] # immutable image — no bind mounts in prod
+    restart: unless-stopped
+
+  mysql:
+    restart: unless-stopped
+    ports: [] # not exposed in prod; app reaches it over the compose network

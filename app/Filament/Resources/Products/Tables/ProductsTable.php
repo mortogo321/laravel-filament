@@ -2,25 +2,26 @@
 
 namespace App\Filament\Resources\Products\Tables;
 
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
-use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
+use Filament\Forms\Components\DatePicker;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Filters\TrashedFilter;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Notifications\Notification;
 
 class ProductsTable
 {
@@ -170,9 +171,9 @@ class ProductsTable
 
                 Filter::make('published_at')
                     ->form([
-                        \Filament\Forms\Components\DatePicker::make('published_from')
+                        DatePicker::make('published_from')
                             ->label('Published from'),
-                        \Filament\Forms\Components\DatePicker::make('published_until')
+                        DatePicker::make('published_until')
                             ->label('Published until'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
@@ -197,7 +198,7 @@ class ProductsTable
                         ->icon('heroicon-m-star')
                         ->color('warning')
                         ->action(function ($record) {
-                            $record->update(['is_featured' => !$record->is_featured]);
+                            $record->update(['is_featured' => ! $record->is_featured]);
                             Notification::make()
                                 ->title($record->is_featured ? 'Product featured' : 'Product unfeatured')
                                 ->success()
@@ -208,7 +209,7 @@ class ProductsTable
                         ->icon('heroicon-m-eye')
                         ->color('info')
                         ->action(function ($record) {
-                            $record->update(['is_visible' => !$record->is_visible]);
+                            $record->update(['is_visible' => ! $record->is_visible]);
                             Notification::make()
                                 ->title($record->is_visible ? 'Product visible' : 'Product hidden')
                                 ->success()
@@ -219,9 +220,9 @@ class ProductsTable
                         ->requiresConfirmation()
                         ->action(function ($record) {
                             $newProduct = $record->replicate();
-                            $newProduct->name = $record->name . ' (Copy)';
-                            $newProduct->slug = $record->slug . '-copy-' . time();
-                            $newProduct->sku = $record->sku . '-COPY';
+                            $newProduct->name = $record->name.' (Copy)';
+                            $newProduct->slug = $record->slug.'-copy-'.time();
+                            $newProduct->sku = $record->sku.'-COPY';
                             $newProduct->save();
 
                             Notification::make()
@@ -235,7 +236,7 @@ class ProductsTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
 
-                    \Filament\Actions\BulkAction::make('feature')
+                    BulkAction::make('feature')
                         ->label('Feature Selected')
                         ->icon('heroicon-m-star')
                         ->color('warning')
@@ -249,7 +250,7 @@ class ProductsTable
                         })
                         ->deselectRecordsAfterCompletion(),
 
-                    \Filament\Actions\BulkAction::make('hide')
+                    BulkAction::make('hide')
                         ->label('Hide Selected')
                         ->icon('heroicon-m-eye-slash')
                         ->color('danger')

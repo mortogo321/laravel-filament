@@ -24,11 +24,11 @@ class ProductStatsOverview extends BaseWidget
                 ->chart([7, 12, 15, 18, 22, 25, $totalProducts]),
 
             Stat::make('Active Products', $activeProducts)
-                ->description(($activeProducts / max($totalProducts, 1) * 100) . '% of total')
+                ->description(($activeProducts / max($totalProducts, 1) * 100).'% of total')
                 ->descriptionIcon('heroicon-o-check-circle')
                 ->color('success'),
 
-            Stat::make('Total Value', '$' . number_format($totalValue, 2))
+            Stat::make('Total Value', '$'.number_format($totalValue, 2))
                 ->description('Inventory value')
                 ->descriptionIcon('heroicon-o-currency-dollar')
                 ->color('warning'),
