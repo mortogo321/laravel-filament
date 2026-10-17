@@ -43,7 +43,7 @@ COPY . .
 RUN composer dump-autoload --optimize --no-dev --no-scripts
 
 # ── Stage 2: frontend assets (Vite 8 + Tailwind 4) ───────────────────────────
-FROM oven/bun:1.4.2-alpine AS frontend
+FROM oven/bun:1.4.3-alpine AS frontend
 WORKDIR /app
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
